@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+    <!--  <named-query name="findDivById">
+          <query>Select d From Division d where d.id = :theid</query>
+      </named-query>-->
+    <named-query name="queryGetBeverages">
+        <query>Select d from BeverageEntity d</query>
+    </named-query>
+
+    <named-query name="queryGetIncentives">
+        <query>Select d from IncentiveEntity d</query>
+    </named-query>
+
+    <named-query name="selecteditembyincentive">
+        <query>SELECT sItem from SelectedItemEntity sItem WHERE sItem.incentive.incentiveId = :incentiveId</query>
+    </named-query>
+
+    <named-query name="selecteditembybeverage">
+        <query>SELECT sItem from SelectedItemEntity sItem WHERE sItem.beverageId = :beverageId</query>
+    </named-query>
+
+    <named-query name="getBeverageByIncentive">
+        <query>SELECT sItem from BeverageEntity sItem WHERE sItem.incentive.incentiveId = :incentiveId</query>
+    </named-query>
+
+    <named-query name="allAvailableBeverages">
+        <query>
+            SELECT bev from BeverageEntity bev WHERE bev.quantity > 0
+        </query>
+    </named-query>
+
+    <named-query name="beverageById">
+        <query>
+            SELECT bev from BeverageEntity bev WHERE bev.beverageId = :beverageId
+        </query>
+    </named-query>
+
+    <named-query name="getDataWithIncentive">
+        <query>
+            select new de.uniba.dsg.dsam.model.ReportModel(ins.incentiveType,ins.name,cus.customerOrderId,cus.issueDate,sel.manufacturer,sel.name,sel.orderQuantity,sel.price)
+            from CustomerOrderEntity cus join cus.orderItems sel join sel.incentive ins where cus.issueDate between :startdate and :enddate
+        </query>
+    </named-query>
+    <named-query name="getDataWithOutIncentive">
+        <query>
+            select new de.uniba.dsg.dsam.model.ReportModel("","",cus.customerOrderId,cus.issueDate,sel.manufacturer,sel.name,sel.orderQuantity,sel.price)
+            from CustomerOrderEntity cus join cus.orderItems sel where sel.incentive = null and cus.issueDate between :startdate and :enddate
+        </query>
+    </named-query>
+</entity-mappings>
